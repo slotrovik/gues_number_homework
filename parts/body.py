@@ -4,32 +4,55 @@ class GuesNumber:
     '''This class defines the user's name, 
     the number of games, and outputs the game listen
     '''
-
+    count = 1
+    competer_count = rnd(1,100)
     def __init__(self):
         self.user_name = input('Добро пожаловать в игру напишите' 
-         'пожалуйста как вас зовут')
+         'пожалуйста как вас зовут: ')
     
-    def game(self):
-        self.count:int = 1
-        self.count += 1
-        competer_count = rnd(1,100)
+    def add_info(self):
+        print (f"count game's {self.count}")
         
+    def add_num(self):
+        print (self.competer_count)
+        
+        
+    def game(self):
+        self.count += 1
         while True:
             try:
-                hum_num = int(input('please enter your number: '))
                 
-                if isinstance(hum_num, int):
-                    if hum_num == competer_count:
-                        print ('you won')
-                        break
-                    elif hum_num < competer_count:
-                        print ('your count smaler')
-                    else:
-                        print ('Your count more')
+                hum_num = input('please enter your number:')
+                if hum_num == 'stop':
+                    GuesNumber.menu(self)
                 else:
-                    raise TypeError
-            except:
+                    hum_num = int(hum_num)
+                    if type(hum_num) == int:
+                        if hum_num == self.competer_count:
+                            print ('you won')
+                            self.competer_count = rnd(1,100)
+                            break
+                        elif hum_num < self.competer_count:
+                            print ('your count smaler')
+                        else:
+                            print ('Your count more')
+                    else:
+                        raise ValueError
+            except ValueError:
                 print('Incorrect input format, pleasy ty numeric plrase')
 
+
+    def menu(self):
+        while True:
+            input_hum = input('Welcom to the game please input comand start/info or answer: ')
+            match input_hum:
+                case 'start':
+                    GuesNumber.game(self)
+                case 'answer':
+                    GuesNumber.add_num(self)
+                case 'info':
+                    GuesNumber.add_info(self)
+                case 'stop':
+                    break
 game = GuesNumber()
-game.game()
+game.menu()
